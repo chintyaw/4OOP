@@ -5,7 +5,7 @@ public class Unocard
     private String color;   // WARNA (Merah, Kuning, Hijau, Biru)
 
   // KONSTRUKTOR
-    public Unocard (int value, String color, String face){
+    public Unocard (int value, String color){
       this.value = value;
       this.color = color;
     }
