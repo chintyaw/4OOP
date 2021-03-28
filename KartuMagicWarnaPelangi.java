@@ -9,7 +9,7 @@ public class KartuMagicWarnaPelangi extends Unocard {
     this.face = face;
     this.color = 'Pelangi';
     }
-    //METHOD
+    //METHODS
     //Getter
     public String getValue(){
         return value;
