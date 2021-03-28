@@ -6,6 +6,7 @@ public class KartuMagic1Warna extends Unocard {
     public KartuMagic1Warna (String color, String face){
     super (String color);
     this.face = face;
+    this.value = null;
     }
     //METHOD
     //Getter
