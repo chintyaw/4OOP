@@ -20,11 +20,11 @@ public class KartuMagic1Warna extends Unocard {
         return face;
     }
     //Setter
-    public void setValue(String value){
-        this.face = value;
+    public void setValue(int value){
+        super.setValue(int value);
     }
     public void setColor(String color){
-        this.face = color;
+        super.setColor(String color);
     }
     public void setFace(String face){
         this.face = face;
