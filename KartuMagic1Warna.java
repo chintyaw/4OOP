@@ -8,8 +8,22 @@ public class KartuMagic1Warna extends Unocard {
     this.face = face;
     }
     //METHOD
+    //Getter
+    public String getValue(){
+        return value;
+    }
+    public String getColor(){
+        return color;
+    )
     public String getFace(){
         return face;
+    }
+    //Setter
+    public void setValue(String value){
+        this.face = value;
+    }
+    public void setColor(String color){
+        this.face = color;
     }
     public void setFace(String face){
         this.face = face;
