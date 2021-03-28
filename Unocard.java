@@ -20,9 +20,9 @@ public class Unocard
     }
   //Setter
     public void setValue(int value){
-      this.value = x;
+      this.value = value;
     }
     public void setColor(String color){
-      this.color = y;
+      this.color = color;
     }
 }
