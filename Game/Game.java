@@ -34,7 +34,16 @@ public class Game {
             playerDeck.add(hand);
         }
     }
-    
-    
-    
+
+    public StartGame(Game game){
+        Card kartuAwal = deck.draw();
+        angkaKartu = card.getNumber();
+        warnaKartu = card.getColor();
+        
+        if (card.getNumber == -1){
+            StartGame(game);
+        }
+
+        stockPile.add(kartuAwal);
+    }   
 }
