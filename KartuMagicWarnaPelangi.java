@@ -4,7 +4,8 @@ public class KartuMagicWarnaPelangi extends Unocard {
     private String face; //FACE KARTU : Draw4 ATAU Wildcard
     //KONSTRUKTOR
     public KartuMagicWarnaPelangi (String face){
-    super ();
+    super();
+    this.value = null;
     this.face = face;
     this.color = 'Pelangi';
     }
