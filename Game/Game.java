@@ -113,8 +113,8 @@ public class Game {
             }
 
             else if (GameDirection == true) {
-                currentPlayer = (checkPlayerTurn - 1) %playerIds.length;
-                if (currentPlayer == -1) {]
+                currentPlayer = (checkPlayerTurn - 1) % playerIds.length;
+                if (currentPlayer == -1) {
                     currentPlayer = playerIds.length - 1;
                 }
             }
@@ -146,8 +146,8 @@ public class Game {
                 }
     
                 else if (GameDirection == true) {
-                    currentPlayer = (checkPlayerTurn - 1) %playerIds.length;
-                    if (currentPlayer == -1) {]
+                    currentPlayer = (checkPlayerTurn - 1) % playerIds.length;
+                    if (currentPlayer == -1) {
                         currentPlayer = playerIds.length - 1;
                     }
                 }
@@ -162,11 +162,11 @@ public class Game {
                 }
     
                 else if (GameDirection == true) {
-                    currentPlayer = (checkPlayerTurn - 2) %playerIds.length;
-                    if (currentPlayer == -1) {]
+                    currentPlayer = (checkPlayerTurn - 2) % playerIds.length;
+                    if (currentPlayer == -1) {
                         currentPlayer = playerIds.length - 1;
                     }
-                    if (currentPlayer == -2) {]
+                    if (currentPlayer == -2) {
                         currentPlayer = playerIds.length - 2;
                     }
                 }
