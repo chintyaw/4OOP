@@ -92,7 +92,7 @@ public class Game {
                     throw new InvalidColorSubmissionException(message, card.getColor(), warnaKartu);
                 }
                 else if (card.getValue() != angkaKartu){
-                    String message2 = ("Invalid player move, expected value"+ validValue +" but got value " + card.getValue());
+                    String message2 = ("Invalid player move, expected number"+ angkaKartu +" but got number " + card.getNumber());
                     throw new InvalidColorSubmissionException(message2, card.getNumber(), angkaKartu);
                 }
             }
@@ -125,18 +125,18 @@ public class Game {
 
             if (card instanceof DrawTwo) {
                 pid = playerIds[currentPlayer];
-                getPlayerDeck(pid).add(deck.drawCard());
-                getPlayerDeck(pid).add(deck.drawCard());
+                getPlayerDeck(pid).add(deck.draw());
+                getPlayerDeck(pid).add(deck.draw());
                 System.out.println("draw 2 cards!");
             }
 
             if (card instanceof DrawFour) {
                 pid = playerIds[currentPlayer];
-                getPlayerDeck(pid).add(deck.drawCard());
-                getPlayerDeck(pid).add(deck.drawCard());
-                getPlayerDeck(pid).add(deck.drawCard());
-                getPlayerDeck(pid).add(deck.drawCard());
-                System.out.println("draw 2 cards!");
+                getPlayerDeck(pid).add(deck.draw());
+                getPlayerDeck(pid).add(deck.draw());
+                getPlayerDeck(pid).add(deck.draw());
+                getPlayerDeck(pid).add(deck.draw());
+                System.out.println("draw 4 cards!");
             }
 
             if (card instanceof Skip){
