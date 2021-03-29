@@ -8,8 +8,12 @@
  *
  * @author Parnaek R. Siagian 18219114
  * @author Gian Denggan Bendjamin Simbolon 18219061
+ * @author Muhammad Ichsandro D Noor 18219094
  */
 public class Game {
+    private int currentPlayer;
+    private String[] playerIds;
+    
     private Deck deck;
     private ArrayList<ArrayList<Card>> playerDeck;
     private ArrayList<Card> stockPile;
@@ -23,7 +27,10 @@ public class Game {
         deck.buildDeck();
         stockPile = new ArrayList<Card>;
         
+        playerIds = pids;
+        currentPlayer = 0;
         GameDirection = false;
+        
         playerDeck = new ArrayList<ArrayList<Card>>();
         
         for (int i=0, pids.length(), i++){
