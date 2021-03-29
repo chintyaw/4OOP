@@ -18,6 +18,8 @@ public class Game {
     private ArrayList<ArrayList<Card>> playerDeck;
     private ArrayList<Card> stockPile;
     
+    private int angkaKartu;
+    private String warnaKartu;
     private int totalPlayer = 0;
     
     boolean GameDirection;
