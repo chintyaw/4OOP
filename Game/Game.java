@@ -7,7 +7,7 @@
 /**
  *
  * @author Parnaek R. Siagian 18219114
- * @author Gian Denggan Bendjamin Simbolon 18219061
+ * @author Gian Denggan Bendjamin 18219061
  * @author Muhammad Ichsandro D Noor 18219094
  */
 public class Game {
