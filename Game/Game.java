@@ -105,7 +105,7 @@ public class Game {
             }
 
             warnaKartu = card.getColor();
-            angkaKartu = card.getValue();
+            angkaKartu = card.getNumber();
             stockPile.add(card);
 
             if (GameDirection == false) {
