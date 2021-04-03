@@ -156,13 +156,53 @@ public class Game {
                 System.out.println("Draw " + 2*jumlahTwo + " cards!");
 
                 nextPlayer();
-                nextPlayer();
                 jumlahTwo = 0;
             }
+            else
+            {
+                System.out.print("Masukkan kartu yang ingin di-discard: ");
+                int pilihkartu = input.nextInt();
+                while (pilihkartu < 1 || pilihkartu > playergiliran.getJumlah())
+                {
+                    System.out.println("Masukan tidak valid. Masukkan angka sesuai dengan list kartu.");
+                    pilihkartu = input.nextInt();
+                }
+
+                Card card = playergiliran.getCard(pilihkartu-1);
+
+                if (card instanceof DrawTwo)
+                {
+                    playergiliran.removeCard(pilihkartu-1);
+                    jumlahTwo += 1;
+                }
+                else
+                {
+                    for (int i=0;i<jumlahTwo;i++)
+                    {
+                        playergiliran.addCard(deck.draw());
+                        playergiliran.addCard(deck.draw());
+                    }
+
+                    System.out.println("Draw " + 2*jumlahTwo + " cards!");
+
+                    nextPlayer();
+                    jumlahTwo = 0;
+                }
+
+            }
+        }
+
+        else if (currentcard instanceof DrawFour)
+        {
+            playergiliran.addCard(deck.draw());
+            playergiliran.addCard(deck.draw());
+            playergiliran.addCard(deck.draw());
+            playergiliran.addCard(deck.draw());
         }
 
         else
         {
+
 
         }
 
@@ -209,7 +249,7 @@ public class Game {
 
         if (currentcard instanceof Wildcard) {
             System.out.print("Masukkan warna pilihan: ");
-            String declaredColor = input();
+            String declaredColor = input.next();
             warnaKartu = declaredColor;
         }
 
@@ -255,17 +295,7 @@ public class Game {
         }
 
         if (currentcard instanceof Skip){
-            System.out.println(playerIds[currentPlayer] + "was skipped");
-            if (GameDirection == false) {
-                currentPlayer = (currentPlayer + 1) % playerIds.length;
-            }
-
-            else if (GameDirection == true) {
-                currentPlayer = (currentPlayer - 1) % playerIds.length;
-                if (currentPlayer == -1) {
-                    currentPlayer = playerIds.length - 1;
-                }
-            }
+            nextPlayer();
         }
 
         if (currentcard instanceof Reverse){
