@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import CardDeck.Deck;
 import CardDeck.Player;
+import Exceptions.*;
 import Cards.*;
 
 import java.util.ArrayList;
@@ -11,13 +12,19 @@ import java.util.ArrayList;
 public class Game {
     public String nama;
     ArrayList<Player> players = new ArrayList<Player>();
+    int jumlahTwo = 0;
+
     Scanner input = new Scanner(System.in);
+
+    String warnaKartu;
+    int angkaKartu;
 
     public Deck deck;
     public int  numplayers;
     public int giliran;
     public boolean clockwise = true;
 
+    public Card currentcard;
 
     public Game()
     {
@@ -25,6 +32,16 @@ public class Game {
         numplayers = input.nextInt();
 
         deck = new Deck();
+        currentcard = deck.draw();
+
+        while (currentcard.getNumber() == -1)
+        {
+            currentcard = deck.draw();
+        }
+
+        warnaKartu = currentcard.getColor();
+        angkaKartu = currentcard.getNumber();
+
         giliran = 0;
 
         for (int i=0;i<numplayers;i++)
@@ -58,4 +75,220 @@ public class Game {
             i++;
         }
     }
+
+    public void ViewPlayerTurn()
+    {
+        Player playergiliran = players.get(giliran);
+        System.out.println("Pemain giliran: " + playergiliran.getName());
+
+        if (clockwise == true)
+        {
+            Player playernext = players.get((giliran+1)%numplayers);
+            System.out.println("Pemain selanjutnya: " + playernext.getName());
+        }
+        else
+        {
+            Player playernext = players.get((giliran-1)%numplayers);
+            System.out.println("Pemain selanjutnya: " + playernext.getName());
+        }
+    }
+
+    public Player getNextPlayer()
+    {
+        if (clockwise == true)
+        {
+            Player playernext = players.get((giliran+1)%numplayers);
+            return (playernext);
+        }
+        else
+        {
+            Player playernext = players.get((giliran-1)%numplayers);
+            return (playernext);
+        }
+    }
+
+    public void PlayerDraw()
+    {
+        Player playergiliran = players.get(giliran);
+        playergiliran.addCard(deck.draw());
+    }
+
+    public boolean validCard(Card card) {
+        return (card.getColor() == warnaKartu || card.getNumber() == angkaKartu);
+    }
+
+    public void nextPlayer()
+    {
+        if (clockwise == true)
+        {
+            giliran = (giliran+1)%numplayers;
+        }
+        else
+        {
+            giliran = (giliran-1)%numplayers;
+        }
+    }
+
+    public void discard ()
+            throws InvalidColorException, InvalidNumberException {
+        // cek kartu top
+
+        Player playergiliran = players.get(giliran);
+
+        if (currentcard instanceof DrawTwo)
+        {
+            boolean found = false;
+            for (Card c: playergiliran.playerHand)
+            {
+                if (c instanceof DrawTwo)
+                {
+                    found = true;
+                }
+            }
+
+            if (!found)
+            {
+                for (int i=0;i<jumlahTwo;i++)
+                {
+                    playergiliran.addCard(deck.draw());
+                    playergiliran.addCard(deck.draw());
+                }
+                System.out.println("Draw " + 2*jumlahTwo + " cards!");
+
+                nextPlayer();
+                nextPlayer();
+                jumlahTwo = 0;
+            }
+        }
+
+        else
+        {
+
+        }
+
+        System.out.print("Masukkan kartu yang ingin di-discard: ");
+        int pilihkartu = input.nextInt();
+        while (pilihkartu < 1 || pilihkartu > playergiliran.getJumlah())
+        {
+            System.out.println("Masukan tidak valid. Masukkan angka sesuai dengan list kartu.");
+            pilihkartu = input.nextInt();
+        }
+        Card card = playergiliran.getCard(pilihkartu-1);
+
+        if (!validCard(card)) {
+            if(card instanceof Wildcard){
+                /* warnaKartu = card.getColor();
+                angkaKartu = card.getNumber(); */
+            }
+
+            else if (card instanceof DrawFour)
+            {
+
+            }
+
+            else if (card.getColor() != warnaKartu) {
+                String message = ("Invalid player move, expected color"+ warnaKartu +" but got color " + card.getColor());
+                throw new InvalidColorException(message, card.getColor(), warnaKartu);
+            }
+            else if (card.getNumber() != angkaKartu){
+                String message2 = ("Invalid player move, expected number"+ angkaKartu +" but got number " + card.getNumber());
+                throw new InvalidNumberException(message2, card.getNumber(), angkaKartu);
+            }
+        }
+
+        playergiliran.removeCard(pilihkartu-1);
+
+        if (playergiliran.getJumlah() == 0){
+            String winnerMessage = new String(playergiliran.getName() + " WON!");
+            System.out.println(winnerMessage);
+        }
+
+        warnaKartu = card.getColor();
+        angkaKartu = card.getNumber();
+        currentcard = card;
+
+        if (currentcard instanceof Wildcard) {
+            System.out.print("Masukkan warna pilihan: ");
+            String declaredColor = input();
+            warnaKartu = declaredColor;
+        }
+
+        if (currentcard instanceof DrawTwo) {
+            Player playernext = getNextPlayer();
+            boolean found = false;
+
+            for (Card c: playernext.playerHand)
+            {
+                if (c instanceof DrawTwo)
+                {
+                    found = true;
+                }
+            }
+
+            if (!found)
+            {
+                for (int i=0;i<jumlahTwo;i++)
+                {
+                    playernext.addCard(deck.draw());
+                    playernext.addCard(deck.draw());
+                }
+                System.out.println("Draw " + 2*jumlahTwo + " cards!");
+
+                nextPlayer();
+                nextPlayer();
+                jumlahTwo = 0;
+            }
+
+            else
+            {
+                jumlahTwo += 1;
+            }
+        }
+
+        if (currentcard instanceof DrawFour) {
+            Player playernext = getNextPlayer();
+            playernext.addCard(deck.draw());
+            playernext.addCard(deck.draw());
+            playernext.addCard(deck.draw());
+            playernext.addCard(deck.draw());
+            System.out.println("draw 4 cards!");
+        }
+
+        if (currentcard instanceof Skip){
+            System.out.println(playerIds[currentPlayer] + "was skipped");
+            if (GameDirection == false) {
+                currentPlayer = (currentPlayer + 1) % playerIds.length;
+            }
+
+            else if (GameDirection == true) {
+                currentPlayer = (currentPlayer - 1) % playerIds.length;
+                if (currentPlayer == -1) {
+                    currentPlayer = playerIds.length - 1;
+                }
+            }
+        }
+
+        if (currentcard instanceof Reverse){
+            System.out.println(playerIds[currentPlayer] + "change the game direction");
+            GameDirection ^= true;
+
+            if (GameDirection == false) {
+                currentPlayer = (currentPlayer + 2) % playerIds.length;
+            }
+
+            else if (GameDirection == true) {
+                currentPlayer = (currentPlayer - 2) % playerIds.length;
+                if (currentPlayer == -1) {
+                    currentPlayer = playerIds.length - 1;
+                }
+                if (currentPlayer == -2) {
+                    currentPlayer = playerIds.length - 2;
+                }
+            }
+        }
+
+    }
+
+
+
 }

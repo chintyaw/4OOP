@@ -72,14 +72,27 @@ public class Main {
 
             else if (command.equals("PlayerTurn"))
             {
-                if (game.clockwise == true)
+                if (start == false)
                 {
-
+                    System.out.println("You have not started the game. Please type 'Start'");
 
                 }
                 else
                 {
+                    game.ViewPlayerTurn();
+                }
+            }
 
+            else if (command.equals("Draw"))
+            {
+                if (start == false)
+                {
+                    System.out.println("You have not started the game. Please type 'Start'");
+
+                }
+                else
+                {
+                    game.PlayerDraw();
                 }
             }
 
