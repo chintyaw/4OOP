@@ -1,15 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author Parnaek R. Siagian 18219114
  * @author Gian Denggan Bendjamin 18219061
  * @author Muhammad Ichsandro D Noor 18219094
  */
+
+import Cards.*;
+import CardDeck.*;
+import Exceptions.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+
 public class Game {
     private int currentPlayer;
     private String[] playerIds;
@@ -24,84 +26,123 @@ public class Game {
     
     boolean GameDirection;
  
-    public Game(String[] pids){
+    public Game(String[] playerIds){
         deck = new Deck();
         deck.buildDeck();
-        stockPile = new ArrayList<Card>;
+        stockPile = new ArrayList<Card>();
         
-        playerIds = pids;
+        this.playerIds = playerIds;
         currentPlayer = 0;
         GameDirection = false;
         
         playerDeck = new ArrayList<ArrayList<Card>>();
         
-        for (int i=0, pids.length(), i++){
+        for (int i=0; i < playerIds.length; i++){
             ArrayList<Card> hand = new ArrayList<Card>();
-            for(int j=0, j=7, j++){
-               hand.add(Deck.draw());
+            for(int j=0; j < 7; j++){
+               hand.add(deck.draw());
             }
             playerDeck.add(hand);
         }
     }
 
-    public StartGame(Game game){
+    public void StartGame(Game game){
         Card kartuAwal = deck.draw();
-        angkaKartu = card.getNumber();
-        warnaKartu = card.getColor();
+        angkaKartu = kartuAwal.getNumber();
+        warnaKartu = kartuAwal.getColor();
         
-        if (card.getNumber == -1){
+        if (kartuAwal.getNumber() == -1){
             StartGame(game);
         }
 
         stockPile.add(kartuAwal);
     }   
-    
-    public void isGameOver(){
+
+    public Card getTopCard(){
+        return (stockPile.get(stockPile.size()-1));
+    }
+
+    public String getCurrentPlayer(){
+        return this.playerIds[this.currentPlayer];
+    }
+
+    public String getNextPlayer(){
+        int nextPlayer = 0;
+
+        if (GameDirection == false) {
+            nextPlayer = (currentPlayer + 1) % playerIds.length;
+        }
+
+        else if (GameDirection == true) {
+            nextPlayer = (currentPlayer - 1) % playerIds.length;
+            if (nextPlayer == -1) {
+                nextPlayer = playerIds.length - 1;
+            }
+        }
+        return this.playerIds[nextPlayer];
+    }
+
+    public void getPlayers(){
+        for(int i = 0; i < playerIds.length; i++){
+            System.out.println("Pemain " + (i+1) + ": " + playerIds[i]);
+            System.out.println("Jumlah Kartu: " + getPlayerDeck(playerIds[i]).size());
+            if (getCurrentPlayer() == playerIds[i]){
+                System.out.println("Sedang giliran");
+            } else {
+                System.out.println("Tidak sedang giliran");
+            }
+        }
+    }
+
+    public ArrayList<Card> getPlayerDeck(String player){
+        int index = Arrays.asList(playerIds).indexOf(player);
+        return playerDeck.get(index);
+    }
+
+    public boolean isGameOver(){
         for (String player : this.playerIds) {
             if (getPlayerDeck(player).isEmpty()){
                 return true;
             }
         }
-        return false
+        return false;
     }
 
-    public boolean validCardPlay(Card card) {
-        return (card.getcolor() == warnaKartu || card.getColor() == angkaKartu);
+    public boolean validCard(Card card) {
+        return (card.getColor() == warnaKartu || card.getNumber() == angkaKartu);
     }
 
-    public void checkPlayerTurn(String pid) throws InvalidPlayerTurnException {
-        if(this.playerIds[this.currentPlayer] != pid) {
-            throw new InvalidPlayerTurnException("It's not"+ pid + "'s turn", pid);
+    public void checkPlayerTurn(String playerId) throws InvalidPlayerTurnException {
+        if(this.playerIds[this.currentPlayer] != playerId) {
+            throw new InvalidPlayerTurnException("It's not"+ playerId + "'s turn", playerId);
         }
     }
     
-    public void discard (String pid, Card card, String declaredColor)
-        throws InvalidColorSubmissionException, InvalidPlayerTurnException, InvalidValueSubmissionException {
-            checkPlayerTurn(pid);
+    public void discard (String playerId, Card card, String declaredColor)
+        throws InvalidColorException, InvalidPlayerTurnException, InvalidNumberException {
+            checkPlayerTurn(playerId);
 
-            ArrayList<Card> pDeck = getPlayerDeck(pid);
-
-            if (!validCardPlay(card)) {
-                if(card instanceof Wild){
+            if (!validCard(card)) {
+                if(card instanceof Wildcard){
                     warnaKartu = card.getColor();
                     angkaKartu = card.getNumber();
                 }
 
                 if (card.getColor() != warnaKartu) {
                     String message = ("Invalid player move, expected color"+ warnaKartu +" but got color " + card.getColor());
-                    throw new InvalidColorSubmissionException(message, card.getColor(), warnaKartu);
+                    throw new InvalidColorException(message, card.getColor(), warnaKartu);
                 }
-                else if (card.getValue() != angkaKartu){
+                else if (card.getNumber() != angkaKartu){
                     String message2 = ("Invalid player move, expected number"+ angkaKartu +" but got number " + card.getNumber());
-                    throw new InvalidColorSubmissionException(message2, card.getNumber(), angkaKartu);
+                    throw new InvalidNumberException(message2, card.getNumber(), angkaKartu);
                 }
             }
 
-            pDeck.remove(card);
+            getPlayerDeck(playerId).remove(card);
 
             if ((this.playerIds[currentPlayer]).isEmpty()){
-                String message = new String(this.playerIds[currentPlayer]+ "WON");
-                //END ??
+                String winnerMessage = new String(this.playerIds[currentPlayer]+ "WON");
+                System.out.println(winnerMessage);
             }
 
             warnaKartu = card.getColor();
@@ -119,23 +160,23 @@ public class Game {
                 }
             }
 
-            if (card instanceof Wild) {
+            if (card instanceof Wildcard) {
                 warnaKartu = declaredColor;
             }
 
             if (card instanceof DrawTwo) {
-                pid = playerIds[currentPlayer];
-                getPlayerDeck(pid).add(deck.draw());
-                getPlayerDeck(pid).add(deck.draw());
+                playerId = playerIds[currentPlayer];
+                getPlayerDeck(playerId).add(deck.draw());
+                getPlayerDeck(playerId).add(deck.draw());
                 System.out.println("draw 2 cards!");
             }
 
             if (card instanceof DrawFour) {
-                pid = playerIds[currentPlayer];
-                getPlayerDeck(pid).add(deck.draw());
-                getPlayerDeck(pid).add(deck.draw());
-                getPlayerDeck(pid).add(deck.draw());
-                getPlayerDeck(pid).add(deck.draw());
+                playerId = playerIds[currentPlayer];
+                getPlayerDeck(playerId).add(deck.draw());
+                getPlayerDeck(playerId).add(deck.draw());
+                getPlayerDeck(playerId).add(deck.draw());
+                getPlayerDeck(playerId).add(deck.draw());
                 System.out.println("draw 4 cards!");
             }
 
@@ -173,4 +214,9 @@ public class Game {
             }
 
     }
+
+    public void declare(){
+
+    }
+
 }
