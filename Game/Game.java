@@ -206,16 +206,16 @@ public class Game {
                     int countDrawTwo = 0;
                     for (Card c: playergiliran.playerHand)
                     {
-                        if (c instanceof DrawTwo && c.getColor().equals(warnaKartu))
+                        if (c instanceof DrawTwo && c.getColor().equals(card.getColor())
                         {
                             countDrawTwo += 1;
                         }
                     }
-                    System.out.println("Anda memiliki "+ countDrawTwo +" Draw 2 "+ warnaKartu);
+                    System.out.println("Anda memiliki "+ countDrawTwo +" Draw 2 "+ card.getColor());
                     System.out.print("Berapa Draw Two yang ingin di-discard: ");
                     int pilih = input.nextInt();
                     while (pilih > countDrawTwo){
-                        System.out.print("Anda hanya punya "+ countDrawTwo +" Draw 2 "+ warnaKartu);
+                        System.out.print("Anda hanya punya "+ countDrawTwo +" Draw 2 "+ card.getColor());
                         System.out.print("Berapa Draw Two yang ingin di-discard: ");
                         pilih = input.nextInt();
                     }
@@ -223,7 +223,7 @@ public class Game {
                     index = 0;
                     for (Card c: playergiliran.playerHand) 
                     {
-                        if (c.getNumber() == angkaKartu && c.getColor().equals(warnaKartu))
+                        if (c.getNumber() == angkaKartu && c.getColor().equals(card.getColor()))
                         {
                             playergiliran.removeCard(index);
                             pilih -= 1;
