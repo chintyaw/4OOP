@@ -23,6 +23,17 @@ public class Main {
 
         while (!exit)
         {
+            if (start)
+            {
+                for (Player p: game.players)
+                {
+                    if (p.getJumlah() == 0)
+                    {
+                        exit = true;
+                    }
+                }
+            }
+
             System.out.print("Insert command: ");
             command = input.next();
 
@@ -31,6 +42,7 @@ public class Main {
                 if (!start) {
                     start = true;
                     game = new Game();
+                    exit = game.exit;
                 }
                 else {
                     System.out.println("You have started the game.");
@@ -103,7 +115,7 @@ public class Main {
                         game.PlayerDraw();
                     }
                     else {
-                        System.out.println("You have been discarded. You cannot Draw a card!");
+                        System.out.println("You have discarded. You cannot Draw a card!");
                     }
                 }
             }
@@ -119,6 +131,7 @@ public class Main {
                 {
                     try{                        
                         game.discard();
+                        //discard = true;
                     } catch (InvalidColorException e) {
                         System.out.println(e.getErrorMessage());
                     } catch (InvalidNumberException e) {
@@ -131,6 +144,11 @@ public class Main {
             {
                 System.out.println("Command not found. Please type 'Help'");
             }
+        }
+
+        if (exit)
+        {
+            System.out.println("Permainan selesai.");
         }
 
 

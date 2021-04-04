@@ -1,5 +1,6 @@
 package Game;
 
+import java.util.Random;
 import java.util.Scanner;
 import java.util.ArrayList;
 import CardDeck.Deck;
@@ -7,7 +8,6 @@ import CardDeck.Player;
 import Exceptions.*;
 import Cards.*;
 
-import java.util.ArrayList;
 
 public class Game {
     public String nama;
@@ -24,6 +24,7 @@ public class Game {
     public Deck deck;
     public int  numplayers;
     public int giliran;
+    public boolean exit=false;
     public boolean clockwise = true;
 
     public Card currentcard;
@@ -44,7 +45,8 @@ public class Game {
         warnaKartu = currentcard.getColor();
         angkaKartu = currentcard.getNumber();
 
-        giliran = 0;
+        Random number = new Random();
+        giliran = number.nextInt(numplayers);
 
         for (int i=0;i<numplayers;i++)
         {
@@ -147,11 +149,18 @@ public class Game {
         }
     }
 
+    public void stop()
+    {
+        exit = true;
+        System.out.println("Permainan selesai.");
+    }
+
     public void discard ()
             throws InvalidColorException, InvalidNumberException {
         // cek kartu top
         
         Player playergiliran = players.get(giliran);
+
         System.out.println("Kartu saat ini: "+ currentcard);
         System.out.println("Kartu yang anda miliki: ");
         playergiliran.ListCards();
@@ -218,6 +227,7 @@ public class Game {
                         {
                             playergiliran.removeCard(index);
                             pilih -= 1;
+                            index--;
                         }
                         if (pilih == 0){
                             break;
@@ -266,8 +276,8 @@ public class Game {
 
             if (!validCard(card)) {
                 if(card instanceof Wildcard){
-                    warnaKartu = card.getColor();
-                    angkaKartu = card.getNumber();
+                    //warnaKartu = card.getColor();
+                    //angkaKartu = card.getNumber();
                 }
 
                 else if (card instanceof DrawFour)
@@ -283,12 +293,14 @@ public class Game {
                     String message2 = ("Invalid player move, expected number "+ angkaKartu +" but got number " + card.getNumber());
                     throw new InvalidNumberException(message2, card.getNumber(), angkaKartu);
                 }
-            } else {
+            }
+            // kartu valid (color sama or warna sama)
+            else {
                 if (currentcard instanceof Wildcard || currentcard instanceof DrawFour){
                     if (card instanceof Wildcard || card instanceof DrawFour){
 
                     } else {
-                        if (card.getColor().equals(warnaKartu)) {
+                        if (!card.getColor().equals(warnaKartu)) {
                             String message = ("Invalid player move, expected color "+ warnaKartu +" but got color " + card.getColor());
                             throw new InvalidColorException(message, card.getColor(), warnaKartu);
                         }
@@ -301,6 +313,7 @@ public class Game {
             if (playergiliran.getJumlah() == 0){
                 String winnerMessage = new String(playergiliran.getName() + " WON!");
                 System.out.println(winnerMessage);
+                stop();
             }
             
             warnaKartu = card.getColor();
@@ -331,6 +344,7 @@ public class Game {
                     {
                         playergiliran.removeCard(index);
                         pilih -= 1;
+                        index--;
                     }
                     if (pilih == 0){
                         break;
@@ -369,6 +383,7 @@ public class Game {
                     {
                         playergiliran.removeCard(index);
                         pilih -= 1;
+                        index--;
                     }
                     if (pilih == 0){
                         break;
@@ -426,6 +441,7 @@ public class Game {
                     {
                         playergiliran.removeCard(index);
                         pilih -= 1;
+                        index--;
                     }
                     if (pilih == 0){
                         break;
@@ -470,6 +486,7 @@ public class Game {
                     {
                         playergiliran.removeCard(index);
                         pilih -= 1;
+                        index -= 1;
                     }
                     if (pilih == 0){
                         break;
@@ -513,6 +530,7 @@ public class Game {
                     {
                         playergiliran.removeCard(index);
                         pilih -= 1;
+                        index--;
                     }
                     if (pilih == 0){
                         break;
@@ -547,6 +565,7 @@ public class Game {
                     {
                         playergiliran.removeCard(index);
                         pilih -= 1;
+                        index--;
                     }
                     if (pilih == 0){
                         break;
