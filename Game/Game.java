@@ -206,7 +206,7 @@ public class Game {
                     int countDrawTwo = 0;
                     for (Card c: playergiliran.playerHand)
                     {
-                        if (c instanceof DrawTwo && c.getColor().equals(card.getColor())
+                        if (c instanceof DrawTwo && c.getColor().equals(card.getColor()))
                         {
                             countDrawTwo += 1;
                         }
@@ -362,7 +362,7 @@ public class Game {
                 int countDrawTwo = 0;
                 for (Card c: playergiliran.playerHand)
                 {
-                    if (c instanceof DrawTwo && c.getColor().equals(warnaKartu))
+                    if (c instanceof DrawTwo)
                     {
                         countDrawTwo += 1;
                     }

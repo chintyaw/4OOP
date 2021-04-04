@@ -4,8 +4,8 @@ import Cards.Card;
 import CardDeck.Deck;
 
 public class Player {
-    private String playerName;
-    private ArrayList<Card> playerHand;
+    public String playerName;
+    public ArrayList<Card> playerHand;
 
     public Player(String playerName)
     {
