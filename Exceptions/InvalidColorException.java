@@ -1,19 +1,17 @@
+package Exceptions;
 
-
-public class InvalidPlayerTurnException extends Exception {
-    private String playerId;
+public class InvalidColorException extends Exception {
+    private String expectedColor;
+    private String actualColor;
     private String message;
-    
-    public InvalidPlayerTurnException(String message, String playerId){
+
+    public InvalidColorException(String message, String actualColor, String expectedColor){
+        this.actualColor = actualColor;
+        this.expectedColor = expectedColor;
         this.message = message;
-        this.playerId = playerId;
     }
 
     public String getErrorMessage(){
         return (this.message);
-    }
-
-    public String getPid(){
-        return this.playerId;
     }
 }
