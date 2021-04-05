@@ -265,6 +265,11 @@ public class Game {
                         jumlahTwo = 0;
                     }
                     System.out.println("Anda telah melakukan discard");
+                    if (playergiliran.getJumlah() == 0){
+                        String winnerMessage = new String(playergiliran.getName() + " WON!");
+                        System.out.println(winnerMessage);
+                        stop();
+                    }
                     nextPlayer();
                 }
             }
@@ -316,12 +321,6 @@ public class Game {
             }
 
             //playergiliran.removeCard(pilihkartu-1);
-
-            if (playergiliran.getJumlah() == 0){
-                String winnerMessage = new String(playergiliran.getName() + " WON!");
-                System.out.println(winnerMessage);
-                stop();
-            }
             
             warnaKartu = card.getColor();
             angkaKartu = card.getNumber();
@@ -367,6 +366,11 @@ public class Game {
                 }
                 warnaKartu = declaredColor;
                 System.out.println("Anda telah melakukan discard");
+                if (playergiliran.getJumlah() == 0){
+                    String winnerMessage = new String(playergiliran.getName() + " WON!");
+                    System.out.println(winnerMessage);
+                    stop();
+                }
                 nextPlayer();
             }
 
@@ -426,6 +430,11 @@ public class Game {
                     jumlahTwo = 0;
                 }
                 System.out.println("Anda telah melakukan discard");
+                if (playergiliran.getJumlah() == 0){
+                    String winnerMessage = new String(playergiliran.getName() + " WON!");
+                    System.out.println(winnerMessage);
+                    stop();
+                }
                 nextPlayer();
             }
 
@@ -475,6 +484,11 @@ public class Game {
                 }
                 warnaKartu = declaredColor; 
                 System.out.println("Anda telah melakukan discard");
+                if (playergiliran.getJumlah() == 0){
+                    String winnerMessage = new String(playergiliran.getName() + " WON!");
+                    System.out.println(winnerMessage);
+                    stop();
+                }
                 nextPlayer();
             }
 
@@ -503,7 +517,7 @@ public class Game {
                     {
                         playergiliran.removeCard(index);
                         pilih -= 1;
-                        index -= 1;
+                        index--;
                     }
                     if (pilih == 0){
                         break;
@@ -511,6 +525,11 @@ public class Game {
                     index += 1;
                 }
                 System.out.println("Anda telah melakukan discard");
+                if (playergiliran.getJumlah() == 0){
+                    String winnerMessage = new String(playergiliran.getName() + " WON!");
+                    System.out.println(winnerMessage);
+                    stop();
+                }
                 nextPlayer();
             }
 
@@ -556,6 +575,11 @@ public class Game {
                 }
                 System.out.println(playergiliran.getName() + " change the game direction");
                 System.out.println("Anda telah melakukan discard");
+                if (playergiliran.getJumlah() == 0){
+                    String winnerMessage = new String(playergiliran.getName() + " WON!");
+                    System.out.println(winnerMessage);
+                    stop();
+                }
                 nextPlayer();                  
             }
             else {//Kartu Number 
@@ -590,6 +614,11 @@ public class Game {
                     index += 1;
                 }
                 System.out.println("Anda telah melakukan discard");
+                if (playergiliran.getJumlah() == 0){
+                    String winnerMessage = new String(playergiliran.getName() + " WON!");
+                    System.out.println(winnerMessage);
+                    stop();
+                }
                 nextPlayer();
             }
         }
