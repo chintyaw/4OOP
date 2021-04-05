@@ -1,10 +1,13 @@
 package Help;
+import java.util.Scanner;
 
-public class Help{
+public class Help implements HelpInterface {
+
     public Help(){
 
     }
-    public static void HelpMenu(){
+    
+    public static void KetentuanPermainan(){
         System.out.println ("Hello HIJI Player!");
         System.out.println ("Game HIJI adalah permainan yang diadaptasi dari permainan kartu UNO");
         System.out.println ();
@@ -24,6 +27,9 @@ public class Help{
         System.out.println ("   pemain wajib mengambil dua kartu dari deck.");
         System.out.println ("7) Pemain dinyatakan menang apabila kartu yang dipegangnya sudah habis, dan permainan selesai.");
         System.out.println ();
+    }
+
+    public static void GameCommand(){
         System.out.println ("PERINTAH:");
         System.out.println ("+--------------------+-------------------------------------------------------------------------------------------+");
         System.out.println ("|  COMMAND           |     KETERANGAN                                                                            |");
@@ -41,6 +47,9 @@ public class Help{
         System.out.println ("|Help                | Melihat deskripsi aturan permainan                                                        |");
         System.out.println ("+--------------------+-------------------------------------------------------------------------------------------+");
         System.out.println ();
+    }
+
+    public static void JenisKartu(){
         System.out.println ("JENIS KARTU:");
         System.out.println ("+--------------------------+-----------------------------------------------+-------------------------------------+");
         System.out.println ("| NO   |  JENIS KARTU      |            DAPAT KELUAR JIKA                  |    POWER                            |");
@@ -75,6 +84,9 @@ public class Help{
         System.out.println ("|      | Kuning/Biru/      |                                               |                                     |");
         System.out.println ("+------+-------------------+-----------------------------------------------+-------------------------------------+");
         System.out.println ();
+    }
+
+    public static void KetentuanDiscard(){
         System.out.println ("MULTIPLE DISCARD:");
         System.out.println ("Apabila suatu pemain memiliki lebih dari satu kartu yang sama persis, pemain tersebut dapat mengeluarkan semua");
         System.out.println ("atau sebagian kartu tersebut dalam satu giliran. Apabila kartu tersebut memiliki power, maka:");
@@ -85,5 +97,42 @@ public class Help{
         System.out.println ("   4) Untuk kartu Reverse, urutan akan membolak-balik sesuai jumlah kartu. Misalnya ada dua kartu Reverse,");
         System.out.println ("      maka urutan pemain tidak berubah.");
         System.out.println ("   5) Untuk kartu Wildcard, pemain tetap hanya dapat memilih satu warna.");
+        System.out.println ();
+    }
+
+    public static void HelpMenu(){
+        int option;
+        Scanner input = new Scanner(System.in);
+        System.out.println ();
+        System.out.println("KATEGORI BANTUAN");
+        System.out.println("1. Ketentuan Permainan");
+        System.out.println("2. Command");
+        System.out.println("3. Jenis Kartu yang ada");
+        System.out.println("4. Peraturan Multiple Discard");
+        System.out.print("Masukkan kategori bantuan yang ingin ditampilkan : ");
+        option = input.nextInt();
+
+        while(option < 1 || option > 4){
+            System.out.print("Masukan anda salah! Silahkan input ulang lagi : ");
+            option = input.nextInt();
+        }
+        
+        System.out.println();
+
+        if (option == 1){
+            KetentuanPermainan();
+        }
+
+        else if (option == 2){
+            GameCommand();
+        }
+
+        else if (option == 3){
+            JenisKartu();
+        }
+
+        else if (option == 4){
+            KetentuanDiscard();
+        }
     }
 }
