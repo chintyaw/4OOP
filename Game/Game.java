@@ -33,6 +33,11 @@ public class Game {
     {
         System.out.print("Insert number of players: ");
         numplayers = input.nextInt();
+        while (numplayers <= 1){
+            System.out.println("insufficient number of players");
+            System.out.print("Insert number of players: ");
+            numplayers = input.nextInt();
+        }
 
         deck = new Deck();
         currentcard = deck.draw();
@@ -126,6 +131,7 @@ public class Game {
     {
         Player playergiliran = players.get(giliran);
         playergiliran.addCard(deck.draw());
+        System.out.println("Mengambil "+playergiliran.getCard(playergiliran.getJumlah()-1));
     }
 
     public boolean validCard(Card card) {
@@ -147,6 +153,7 @@ public class Game {
             }
             skipcount = 0;
         }
+        System.out.println("Sekarang giliran "+ players.get(giliran).getName());
     }
 
     public void stop()
@@ -155,7 +162,7 @@ public class Game {
         System.out.println("Permainan selesai.");
     }
 
-    public void discard ()
+    public synchronized void discard ()
             throws InvalidColorException, InvalidNumberException {
         // cek kartu top
         
@@ -215,7 +222,7 @@ public class Game {
                     System.out.print("Berapa Draw Two yang ingin di-discard: ");
                     int pilih = input.nextInt();
                     while (pilih > countDrawTwo){
-                        System.out.print("Anda hanya punya "+ countDrawTwo +" Draw 2 "+ card.getColor());
+                        System.out.println("Anda hanya punya "+ countDrawTwo +" Draw 2 "+ card.getColor());
                         System.out.print("Berapa Draw Two yang ingin di-discard: ");
                         pilih = input.nextInt();
                     }
@@ -333,7 +340,7 @@ public class Game {
                 System.out.print("Berapa WildCard yang ingin di-discard: ");
                 int pilih = input.nextInt();
                 while (pilih > countWild){
-                    System.out.print("Anda hanya punya "+ countWild +" WildCard!");
+                    System.out.println("Anda hanya punya "+ countWild +" WildCard!");
                     System.out.print("Berapa WildCard yang ingin di-discard: ");
                     pilih = input.nextInt();
                 }
@@ -353,6 +360,11 @@ public class Game {
                 }
                 System.out.print("Masukkan warna pilihan: ");
                 String declaredColor = input.next();
+                while (!(declaredColor.equals("Merah") || declaredColor.equals("Kuning") || declaredColor.equals("Hijau") || declaredColor.equals("Biru"))){
+                    System.out.println("Masukkan warna tidak sesuai!");
+                    System.out.print("Masukkan warna pilihan: ");
+                    declaredColor = input.next();
+                }
                 warnaKartu = declaredColor;
                 System.out.println("Anda telah melakukan discard");
                 nextPlayer();
@@ -362,7 +374,7 @@ public class Game {
                 int countDrawTwo = 0;
                 for (Card c: playergiliran.playerHand)
                 {
-                    if (c instanceof DrawTwo)
+                    if (c instanceof DrawTwo && c.getColor().equals(warnaKartu))
                     {
                         countDrawTwo += 1;
                     }
@@ -371,7 +383,7 @@ public class Game {
                 System.out.print("Berapa Draw Two yang ingin di-discard: ");
                 int pilih = input.nextInt();
                 while (pilih > countDrawTwo){
-                    System.out.print("Anda hanya punya "+ countDrawTwo +" Draw 2 "+ warnaKartu);
+                    System.out.println("Anda hanya punya "+ countDrawTwo +" Draw 2 "+ warnaKartu);
                     System.out.print("Berapa Draw Two yang ingin di-discard: ");
                     pilih = input.nextInt();
                 }
@@ -430,7 +442,7 @@ public class Game {
                 System.out.print("Berapa Draw Four yang ingin di-discard: ");
                 int pilih = input.nextInt();
                 while (pilih > countDrawFour){
-                    System.out.print("Anda memiliki "+ countDrawFour +" Draw 4");
+                    System.out.println("Anda memiliki "+ countDrawFour +" Draw 4");
                     System.out.print("Berapa Draw Four yang ingin di-discard: ");
                     pilih = input.nextInt();
                 }
@@ -456,6 +468,11 @@ public class Game {
                 System.out.println(playernext.getName()+ " draw 4 cards!");
                 System.out.print("Masukkan warna pilihan: ");
                 String declaredColor = input.next();
+                while (!(declaredColor.equals("Merah") || declaredColor.equals("Kuning") || declaredColor.equals("Hijau") || declaredColor.equals("Biru"))){
+                    System.out.println("Masukkan warna tidak sesuai!");
+                    System.out.print("Masukkan warna pilihan: ");
+                    declaredColor = input.next();
+                }
                 warnaKartu = declaredColor; 
                 System.out.println("Anda telah melakukan discard");
                 nextPlayer();
@@ -474,7 +491,7 @@ public class Game {
                 System.out.print("Berapa Skip yang ingin di-discard: ");
                 int pilih = input.nextInt();
                 while (pilih > countSkip){
-                    System.out.print("Anda memiliki "+ countSkip +" Skip "+ warnaKartu);
+                    System.out.println("Anda memiliki "+ countSkip +" Skip "+ warnaKartu);
                     System.out.print("Berapa Skip yang ingin di-discard: ");
                     pilih = input.nextInt();
                 }
@@ -510,7 +527,7 @@ public class Game {
                 System.out.print("Berapa Reverse yang ingin di-discard: ");
                 int pilih = input.nextInt();
                 while (pilih > countReverse){
-                    System.out.print("Anda memiliki "+ countReverse +" Reverse "+ warnaKartu);
+                    System.out.println("Anda memiliki "+ countReverse +" Reverse "+ warnaKartu);
                     System.out.print("Berapa Reverse yang ingin di-discard: ");
                     pilih = input.nextInt();
                 }
