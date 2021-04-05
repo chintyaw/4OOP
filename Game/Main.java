@@ -1,14 +1,10 @@
 package Game;
 
 import java.util.Scanner;
-import java.util.ArrayList;
-import CardDeck.Deck;
 import CardDeck.Player;
-import Cards.*;
+import Help.*;
 import Exceptions.InvalidColorException;
 import Exceptions.InvalidNumberException;
-
-import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,24 +12,22 @@ public class Main {
         Scanner input = new Scanner(System.in);
 
         String command;
-        boolean start = false, exit = false, discard = false;
+        boolean start = false, exit = false;
 
         System.out.println("Welcome to HIJI");
         Game game = null;
 
         while (!exit)
         {
-            if (start)
-            {
-                for (Player p: game.players)
-                {
-                    if (p.getJumlah() == 0)
-                    {
-                        exit = true;
-                    }
-                }
-            }
-
+            System.out.println("List of Commands:");
+            System.out.println("- Start");
+            System.out.println("- CardList");
+            System.out.println("- Discard");
+            System.out.println("- Draw");
+            System.out.println("- HIJI");
+            System.out.println("- PlayerList");
+            System.out.println("- PlayerTurn");
+            System.out.println("- Help");
             System.out.print("Insert command: ");
             command = input.next();
 
@@ -42,7 +36,6 @@ public class Main {
                 if (!start) {
                     start = true;
                     game = new Game();
-                    exit = game.exit;
                 }
                 else {
                     System.out.println("You have started the game.");
@@ -78,15 +71,7 @@ public class Main {
 
             else if (command.equals("Help"))
             {
-                System.out.println("List of Commands:");
-                System.out.println("- Start");
-                System.out.println("- CardList");
-                System.out.println("- Discard");
-                System.out.println("- Draw");
-                System.out.println("- HIJI");
-                System.out.println("- PlayerList");
-                System.out.println("- PlayerTurn");
-                System.out.println("- Help");
+                Help.HelpMenu();
             }
 
             else if (command.equals("PlayerTurn"))
@@ -111,12 +96,7 @@ public class Main {
                 }
                 else
                 {
-                    if (!discard){
-                        game.PlayerDraw();
-                    }
-                    else {
-                        System.out.println("You have discarded. You cannot Draw a card!");
-                    }
+                    game.PlayerDraw();
                 }
             }
 
@@ -131,7 +111,6 @@ public class Main {
                 {
                     try{                        
                         game.discard();
-                        //discard = true;
                     } catch (InvalidColorException e) {
                         System.out.println(e.getErrorMessage());
                     } catch (InvalidNumberException e) {
@@ -145,12 +124,6 @@ public class Main {
                 System.out.println("Command not found. Please type 'Help'");
             }
         }
-
-        if (exit)
-        {
-            System.out.println("Permainan selesai.");
-        }
-
-
+        input.close();
     }
 }

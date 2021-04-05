@@ -9,7 +9,7 @@ import Exceptions.*;
 import Cards.*;
 
 
-public class Game {
+public class Game{
     public String nama;
     ArrayList<Player> players = new ArrayList<Player>(); 
 
@@ -24,7 +24,6 @@ public class Game {
     public Deck deck;
     public int  numplayers;
     public int giliran;
-    public boolean exit=false;
     public boolean clockwise = true;
 
     public Card currentcard;
@@ -131,7 +130,31 @@ public class Game {
     {
         Player playergiliran = players.get(giliran);
         playergiliran.addCard(deck.draw());
-        System.out.println("Mengambil "+playergiliran.getCard(playergiliran.getJumlah()-1));
+        Card card = playergiliran.getCard(playergiliran.getJumlah()-1);
+        System.out.println("Mengambil "+ card);
+        if (!validCard(card)) {
+            if(card instanceof Wildcard){
+                //warnaKartu = card.getColor();
+                //angkaKartu = card.getNumber();
+            }
+
+            else if (card instanceof DrawFour)
+            {
+
+            }
+            else{
+                nextPlayer();
+            }
+        }
+        else {
+            if (currentcard instanceof Wildcard || currentcard instanceof DrawFour){
+                if (card instanceof Wildcard || card instanceof DrawFour){
+
+                } else {
+                    nextPlayer();
+                }
+            }
+        }
     }
 
     public boolean validCard(Card card) {
@@ -158,17 +181,23 @@ public class Game {
 
     public void stop()
     {
-        exit = true;
         System.out.println("Permainan selesai.");
+        System.exit(0);
     }
 
-    public synchronized void discard ()
+    public synchronized void discard()
             throws InvalidColorException, InvalidNumberException {
         // cek kartu top
         
         Player playergiliran = players.get(giliran);
-
-        System.out.println("Kartu saat ini: "+ currentcard);
+        if (currentcard instanceof Wildcard || currentcard instanceof DrawFour)
+        {
+            System.out.println("Kartu saat ini: "+ currentcard +" "+ warnaKartu);
+        } 
+        else
+        {
+            System.out.println("Kartu saat ini: "+ currentcard);
+        }
         System.out.println("Kartu yang anda miliki: ");
         playergiliran.ListCards();
 
@@ -228,18 +257,18 @@ public class Game {
                     }
                     jumlahTwo += pilih;
                     index = 0;
-                    for (Card c: playergiliran.playerHand) 
-                    {
-                        if (c.getNumber() == angkaKartu && c.getColor().equals(card.getColor()))
+                    while (pilih > 0){
+                        for (Card c: playergiliran.playerHand) 
                         {
-                            playergiliran.removeCard(index);
-                            pilih -= 1;
-                            index--;
+                            if (c instanceof DrawTwo && c.getColor().equals(warnaKartu))
+                            {
+                                playergiliran.removeCard(index);
+                                index = 0;
+                                pilih -= 1;
+                                break;
+                            }
+                            index += 1;
                         }
-                        if (pilih == 0){
-                            break;
-                        }
-                        index += 1;
                     }
                     Player playernext = getNextPlayer();
                     found = false;
@@ -299,11 +328,11 @@ public class Game {
 
                 else if (!(card.getColor().equals(warnaKartu))) {
                     String message = ("Invalid player move, expected color "+ warnaKartu +" but got color " + card.getColor());
-                    throw new InvalidColorException(message, card.getColor(), warnaKartu);
+                    throw new InvalidColorException(message);
                 }
                 else if (card.getNumber() != angkaKartu){
                     String message2 = ("Invalid player move, expected number "+ angkaKartu +" but got number " + card.getNumber());
-                    throw new InvalidNumberException(message2, card.getNumber(), angkaKartu);
+                    throw new InvalidNumberException(message2);
                 }
             }
             // kartu valid (color sama or warna sama)
@@ -314,7 +343,7 @@ public class Game {
                     } else {
                         if (!card.getColor().equals(warnaKartu)) {
                             String message = ("Invalid player move, expected color "+ warnaKartu +" but got color " + card.getColor());
-                            throw new InvalidColorException(message, card.getColor(), warnaKartu);
+                            throw new InvalidColorException(message);
                         }
                     }
                 }
@@ -344,18 +373,18 @@ public class Game {
                     pilih = input.nextInt();
                 }
                 int index = 0;
-                for (Card c: playergiliran.playerHand) 
-                {
-                    if (c instanceof Wildcard)
+                while (pilih > 0){
+                    for (Card c: playergiliran.playerHand) 
                     {
-                        playergiliran.removeCard(index);
-                        pilih -= 1;
-                        index--;
+                        if (c instanceof Wildcard)
+                        {
+                            playergiliran.removeCard(index);
+                            index = 0;
+                            pilih -= 1;
+                            break;
+                        }
+                        index += 1;
                     }
-                    if (pilih == 0){
-                        break;
-                    }
-                    index += 1;
                 }
                 System.out.print("Masukkan warna pilihan: ");
                 String declaredColor = input.next();
@@ -393,18 +422,18 @@ public class Game {
                 }
                 jumlahTwo += pilih;
                 int index = 0;
-                for (Card c: playergiliran.playerHand) 
-                {
-                    if (c instanceof DrawTwo && c.getColor().equals(warnaKartu))
+                while (pilih > 0){
+                    for (Card c: playergiliran.playerHand) 
                     {
-                        playergiliran.removeCard(index);
-                        pilih -= 1;
-                        index--;
+                        if (c instanceof DrawTwo && c.getColor().equals(warnaKartu))
+                        {
+                            playergiliran.removeCard(index);
+                            index = 0;
+                            pilih -= 1;
+                            break;
+                        }
+                        index += 1;
                     }
-                    if (pilih == 0){
-                        break;
-                    }
-                    index += 1;
                 }
                 Player playernext = getNextPlayer();
                 boolean found = false;
@@ -456,18 +485,18 @@ public class Game {
                     pilih = input.nextInt();
                 }
                 int index = 0;
-                for (Card c: playergiliran.playerHand) 
-                {
-                    if (c instanceof DrawFour)
+                while (pilih > 0){
+                    for (Card c: playergiliran.playerHand) 
                     {
-                        playergiliran.removeCard(index);
-                        pilih -= 1;
-                        index--;
+                        if (c instanceof DrawFour)
+                        {
+                            playergiliran.removeCard(index);
+                            index = 0;
+                            pilih -= 1;
+                            break;
+                        }
+                        index += 1;
                     }
-                    if (pilih == 0){
-                        break;
-                    }
-                    index += 1;
                 }
                 Player playernext = getNextPlayer();
                 playernext.addCard(deck.draw());
@@ -511,18 +540,18 @@ public class Game {
                 }
                 skipcount += pilih;
                 int index = 0;
-                for (Card c: playergiliran.playerHand) 
-                {
-                    if (c instanceof Skip && c.getColor().equals(warnaKartu))
+                while (pilih > 0){
+                    for (Card c: playergiliran.playerHand) 
                     {
-                        playergiliran.removeCard(index);
-                        pilih -= 1;
-                        index--;
+                        if (c instanceof Skip && c.getColor().equals(warnaKartu))
+                        {
+                            playergiliran.removeCard(index);
+                            index = 0;
+                            pilih -= 1;
+                            break;
+                        }
+                        index += 1;
                     }
-                    if (pilih == 0){
-                        break;
-                    }
-                    index += 1;
                 }
                 System.out.println("Anda telah melakukan discard");
                 if (playergiliran.getJumlah() == 0){
@@ -560,18 +589,18 @@ public class Game {
                     } 
                 }
                 int index = 0;
-                for (Card c: playergiliran.playerHand) 
-                {
-                    if (c instanceof Reverse && c.getColor().equals(warnaKartu))
+                while (pilih > 0){
+                    for (Card c: playergiliran.playerHand) 
                     {
-                        playergiliran.removeCard(index);
-                        pilih -= 1;
-                        index--;
+                        if (c instanceof Reverse && c.getColor().equals(warnaKartu))
+                        {
+                            playergiliran.removeCard(index);
+                            index = 0;
+                            pilih -= 1;
+                            break;
+                        }
+                        index += 1;
                     }
-                    if (pilih == 0){
-                        break;
-                    }
-                    index += 1;
                 }
                 System.out.println(playergiliran.getName() + " change the game direction");
                 System.out.println("Anda telah melakukan discard");
@@ -600,18 +629,18 @@ public class Game {
                     pilih = input.nextInt();
                 }
                 int index = 0;
-                for (Card c: playergiliran.playerHand) 
-                {
-                    if (c.getNumber() == angkaKartu && c.getColor().equals(warnaKartu))
+                while (pilih > 0){
+                    for (Card c: playergiliran.playerHand) 
                     {
-                        playergiliran.removeCard(index);
-                        pilih -= 1;
-                        index--;
+                        if (c.getNumber() == angkaKartu && c.getColor().equals(warnaKartu))
+                        {
+                            playergiliran.removeCard(index);
+                            index = 0;
+                            pilih -= 1;
+                            break;
+                        }
+                        index += 1;
                     }
-                    if (pilih == 0){
-                        break;
-                    }
-                    index += 1;
                 }
                 System.out.println("Anda telah melakukan discard");
                 if (playergiliran.getJumlah() == 0){
