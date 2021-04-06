@@ -384,6 +384,8 @@ public class Game{
                     }
                     else if (playergiliran.getHiji() == false && playergiliran.getJumlah() == 1)
                     {
+                        System.out.println();
+                        System.out.println("Kartu Anda tersisa 1, Cepat input HIJI!!");
                         //balik ke menu dan mulai thread
                     } 
                     else
@@ -543,6 +545,8 @@ public class Game{
                 }
                 else if (playergiliran.getHiji() == false && playergiliran.getJumlah() == 1)
                 {
+                    System.out.println();
+                    System.out.println("Kartu Anda tersisa 1, Cepat input HIJI!!");
                     //balik ke menu dan mulai thread
                 } 
                 else
@@ -613,6 +617,8 @@ public class Game{
                 }
                 else if (playergiliran.getHiji() == false && playergiliran.getJumlah() == 1)
                 {
+                    System.out.println();
+                    System.out.println("Kartu Anda tersisa 1, Cepat input HIJI!!");
                     //balik ke menu dan mulai thread
                 } 
                 else
@@ -638,6 +644,14 @@ public class Game{
                     System.out.print("Berapa Draw Four yang ingin di-discard: ");
                     pilih = input.nextInt();
                 }
+                Player playernext = getNextPlayer();
+                for(int i = 0; i < pilih; i++){
+                    playernext.addCard(deck.draw());
+                    playernext.addCard(deck.draw());
+                    playernext.addCard(deck.draw());
+                    playernext.addCard(deck.draw());
+                }
+                System.out.println(playernext.getName()+ " draw "+(4*pilih)+" cards!");
                 int index = 0;
                 while (pilih > 0){
                     for (Card c: playergiliran.playerHand)
@@ -652,12 +666,6 @@ public class Game{
                         index += 1;
                     }
                 }
-                Player playernext = getNextPlayer();
-                playernext.addCard(deck.draw());
-                playernext.addCard(deck.draw());
-                playernext.addCard(deck.draw());
-                playernext.addCard(deck.draw());
-                System.out.println(playernext.getName()+ " draw 4 cards!");
                 System.out.print("Masukkan warna pilihan: ");
                 String declaredColor = input.next();
                 while (!(declaredColor.equals("Merah") || declaredColor.equals("Kuning") || declaredColor.equals("Hijau") || declaredColor.equals("Biru"))){
@@ -674,6 +682,8 @@ public class Game{
                 }
                 else if (playergiliran.getHiji() == false && playergiliran.getJumlah() == 1)
                 {
+                    System.out.println();
+                    System.out.println("Kartu Anda tersisa 1, Cepat input HIJI!!");
                     //balik ke menu dan mulai thread
                 } 
                 else
@@ -722,6 +732,8 @@ public class Game{
                 }
                 else if (playergiliran.getHiji() == false && playergiliran.getJumlah() == 1)
                 {
+                    System.out.println();
+                    System.out.println("Kartu Anda tersisa 1, Cepat input HIJI!!");
                     //balik ke menu dan mulai thread
                 } 
                 else
@@ -779,6 +791,8 @@ public class Game{
                 }
                 else if (playergiliran.getHiji() == false && playergiliran.getJumlah() == 1)
                 {
+                    System.out.println();
+                    System.out.println("Kartu Anda tersisa 1, Cepat input HIJI!!");
                     //balik ke menu dan mulai thread
                 } 
                 else
@@ -825,6 +839,8 @@ public class Game{
                 }
                 else if (playergiliran.getHiji() == false && playergiliran.getJumlah() == 1)
                 {
+                    System.out.println();
+                    System.out.println("Kartu Anda tersisa 1, Cepat input HIJI!!");
                     //balik ke menu dan mulai thread
                 } 
                 else

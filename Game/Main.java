@@ -24,6 +24,17 @@ public class Main {
 
         while (!exit)
         {
+            if (start)
+            {
+                playergiliran = game.players.get(game.giliran);
+                hiji = new Hiji(playergiliran, game);
+                t = new Thread(hiji);
+                if (playergiliran.getHiji() == false && playergiliran.getJumlah() == 1)
+                {
+                    t.start();
+                }
+            }
+            
             System.out.println("List of Commands:");
             System.out.println("- Start");
             System.out.println("- CardList");
@@ -35,17 +46,6 @@ public class Main {
             System.out.println("- Help");
             System.out.print("Insert command: ");
             command = input.next();
-
-            if (start)
-            {
-                playergiliran = game.players.get(game.giliran);
-                hiji = new Hiji(playergiliran, game);
-                t = new Thread(hiji);
-                if (playergiliran.getHiji() == false && playergiliran.getJumlah() == 1)
-                {
-                    t.start();
-                }
-            }
 
             if (command.equals("Start"))
             {
