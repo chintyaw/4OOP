@@ -100,6 +100,39 @@ public class Main {
                 }
             }
 
+            else if (command.equals("HIJI"))
+            {
+                if (start == false)
+                {
+                    System.out.println("You have not started the game. Please type 'Start'");
+
+                }
+                else
+                {
+                    Player playergiliran = game.players.get(game.giliran);
+
+                    if (playergiliran.getJumlah() != 1)
+                    {
+                        System.out.println("Anda memiliki lebih dari satu kartu.");
+                        playergiliran.addCard(game.deck.draw());
+                        playergiliran.addCard(game.deck.draw());
+                        System.out.println("Anda mengambil 2 kartu!");
+                    }
+
+                    else
+                    {
+                        if (playergiliran.getHiji() == false) //belum hiji
+                        {
+                            Hiji hiji = new Hiji(playergiliran);
+                            Thread t = new Thread(hiji);
+                            hiji.declarehiji();
+                        }
+                    }
+
+                }
+
+            }
+
             else if (command.equals("Discard"))
             {
                 if (start == false)
@@ -109,7 +142,7 @@ public class Main {
                 }
                 else
                 {
-                    try{                        
+                    try{
                         game.discard();
                     } catch (InvalidColorException e) {
                         System.out.println(e.getErrorMessage());

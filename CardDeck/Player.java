@@ -6,11 +6,13 @@ import CardDeck.Deck;
 public class Player {
     public String playerName;
     public ArrayList<Card> playerHand;
+    public boolean hiji = false;
 
     public Player(String playerName)
     {
         this.playerName = playerName;
         playerHand = new ArrayList<Card>();
+        this.hiji = hiji;
     }
 
     public String getName()
@@ -52,5 +54,15 @@ public class Player {
         for (int i=0;i<7;i++){
             addCard(deck.draw());
         }
+    }
+
+    public boolean getHiji()
+    {
+        return this.hiji;
+    }
+
+    public void declaredHiji()
+    {
+        this.hiji = true;
     }
 }
