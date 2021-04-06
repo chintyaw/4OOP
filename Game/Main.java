@@ -17,6 +17,10 @@ public class Main {
         System.out.println("Welcome to HIJI");
         Game game = null;
 
+        Player playergiliran = null;
+        Hiji hiji = new Hiji(playergiliran);
+        Thread t = new Thread(hiji);
+
         while (!exit)
         {
             System.out.println("List of Commands:");
@@ -30,6 +34,17 @@ public class Main {
             System.out.println("- Help");
             System.out.print("Insert command: ");
             command = input.next();
+
+            if (start)
+            {
+                playergiliran = game.players.get(game.giliran);
+                hiji = new Hiji(playergiliran);
+                t = new Thread(hiji);
+                if (playergiliran.getHiji() == false && playergiliran.getJumlah() == 1)
+                {
+                    t.start();
+                }
+            }
 
             if (command.equals("Start"))
             {
@@ -64,7 +79,7 @@ public class Main {
                 }
                 else
                 {
-                    Player playergiliran = game.players.get(game.giliran);
+                    playergiliran = game.players.get(game.giliran);
                     playergiliran.ListCards();
                 }
             }
@@ -105,11 +120,10 @@ public class Main {
                 if (start == false)
                 {
                     System.out.println("You have not started the game. Please type 'Start'");
-
                 }
                 else
                 {
-                    Player playergiliran = game.players.get(game.giliran);
+                    playergiliran = game.players.get(game.giliran);
 
                     if (playergiliran.getJumlah() != 1)
                     {
@@ -123,9 +137,7 @@ public class Main {
                     {
                         if (playergiliran.getHiji() == false) //belum hiji
                         {
-                            Hiji hiji = new Hiji(playergiliran);
-                            Thread t = new Thread(hiji);
-                            hiji.declarehiji();
+                            t.interrupt();
                         }
                     }
 
