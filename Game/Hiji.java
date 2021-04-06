@@ -3,16 +3,18 @@ package Game;
 import CardDeck.*;
 import Cards.*;
 
-public class Hiji extends Thread {
+public class Hiji implements Runnable {
     Player playergiliran;
+    Game game;
     Deck deck = new Deck();
 
-    public Hiji(Player playergiliran)
+    public Hiji(Player playergiliran, Game game)
     {
         this.playergiliran = playergiliran;
+        this.game = game;
     }
 
-    public void declarehiji()
+    public void run()
     {
         try
         {
@@ -21,12 +23,14 @@ public class Hiji extends Thread {
             playergiliran.addCard(deck.draw());
             playergiliran.addCard(deck.draw());
             System.out.println("Anda mendapat 2 kartu.");
+            game.nextPlayer();
         }
         catch (InterruptedException e)
         {
             Thread.currentThread().interrupt();
             System.out.println(playergiliran.getName() + " men-declare HIJI.");
             playergiliran.declaredHiji();
+            game.nextPlayer();
         }
     }
 }

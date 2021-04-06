@@ -30,6 +30,8 @@ public class Game{
 
     public Game()
     {
+        System.out.println();
+        System.out.println("MEMULAI PERMAINAN");
         System.out.print("Insert number of players: ");
         numplayers = input.nextInt();
         while (numplayers <= 1){
@@ -63,10 +65,15 @@ public class Game{
         {
             p.ShuffleSeven(deck);
         }
+        Player playergiliran = players.get(giliran);
+        System.out.println(playergiliran.getName()+" mendapat giliran pertama!");
+        System.out.println();
     }
 
     public void PlayerList()
     {
+        System.out.println();
+        System.out.println("LIST PEMAIN");
         int i=1;
         for (Player p: players)
         {
@@ -81,11 +88,14 @@ public class Game{
                 System.out.println("Tidak sedang giliran");
             }
             i++;
+            System.out.println();
         }
     }
 
     public void ViewPlayerTurn()
     {
+        System.out.println();
+        System.out.println("MELIHAT GILIRAN");
         Player playergiliran = players.get(giliran);
         System.out.println("Pemain giliran: " + playergiliran.getName());
 
@@ -102,10 +112,13 @@ public class Game{
                 giliranNext = numplayers - 1;
             } else if (giliranNext == -skipcount) {
                 giliranNext = numplayers - skipcount;
+            } else if (giliranNext == -skipcount-1) {
+                giliranNext = numplayers - skipcount-1;
             }
             Player playernext = players.get(giliranNext);
             System.out.println("Pemain selanjutnya: " + playernext.getName());
         }
+        System.out.println();
     }
 
     public Player getNextPlayer()
@@ -128,29 +141,67 @@ public class Game{
 
     public void PlayerDraw()
     {
+        System.out.println();
+        System.out.println("DRAW A CARD");
         Player playergiliran = players.get(giliran);
+        playergiliran.hiji = false;
         playergiliran.addCard(deck.draw());
         Card card = playergiliran.getCard(playergiliran.getJumlah()-1);
-        System.out.println("Mengambil "+ card);
+        System.out.println(playergiliran.getName()+" mengambil "+ card);
         if (!validCard(card)) {
             if(card instanceof Wildcard){
-                //warnaKartu = card.getColor();
-                //angkaKartu = card.getNumber();
+                System.out.println();
             }
 
             else if (card instanceof DrawFour)
             {
-
+                System.out.println();
             }
             else{
                 nextPlayer();
             }
         }
         else {
-            if (currentcard instanceof Wildcard || currentcard instanceof DrawFour){
-                if (card instanceof Wildcard || card instanceof DrawFour){
+            if (currentcard instanceof Wildcard || currentcard instanceof DrawFour)
+            {
+                if (card instanceof Wildcard || card instanceof DrawFour)
+                {
+                    System.out.println();
+                } 
+                else
+                {
+                    nextPlayer();
+                }
+            }
+            if (currentcard instanceof Skip)
+            {
+                if (card instanceof Skip || card instanceof Wildcard || card instanceof DrawFour || card.getColor() == warnaKartu){
+                    System.out.println();
+                }
+                else
+                {
+                    nextPlayer();
+                }
+            }
 
-                } else {
+            if (currentcard instanceof Reverse)
+            {
+                if (card instanceof Reverse || card instanceof Wildcard || card instanceof DrawFour || card.getColor() == warnaKartu){
+                    System.out.println();
+                }
+                else
+                {
+                    nextPlayer();
+                }
+            }
+
+            if (currentcard instanceof DrawTwo)
+                {
+                if (card instanceof DrawTwo || card.getColor() == warnaKartu){
+                    System.out.println();
+                }
+                else
+                {
                     nextPlayer();
                 }
             }
@@ -163,6 +214,7 @@ public class Game{
 
     public void nextPlayer()
     {
+        System.out.println();
         if (clockwise == true)
         {
             giliran = (giliran+skipcount+1)%numplayers;
@@ -177,6 +229,7 @@ public class Game{
             skipcount = 0;
         }
         System.out.println("Sekarang giliran "+ players.get(giliran).getName());
+        System.out.println();
     }
 
     public void stop()
@@ -188,7 +241,8 @@ public class Game{
     public synchronized void discard()
             throws InvalidColorException, InvalidNumberException {
         // cek kartu top
-
+        System.out.println();
+        System.out.println("MELAKUKAN DISCARD");
         Player playergiliran = players.get(giliran);
         if (currentcard instanceof Wildcard || currentcard instanceof DrawFour)
         {
@@ -299,7 +353,14 @@ public class Game{
                         System.out.println(winnerMessage);
                         stop();
                     }
-                    nextPlayer();
+                    else if (playergiliran.getHiji() == false && playergiliran.getJumlah() == 1)
+                    {
+                        //balik ke menu dan mulai thread
+                    } 
+                    else
+                    {
+                        nextPlayer();
+                    }
                 }
             }
         }
@@ -451,9 +512,15 @@ public class Game{
                     System.out.println(winnerMessage);
                     stop();
                 }
-                nextPlayer();
+                else if (playergiliran.getHiji() == false && playergiliran.getJumlah() == 1)
+                {
+                    //balik ke menu dan mulai thread
+                } 
+                else
+                {
+                    nextPlayer();
+                }
             }
-
             else if (currentcard instanceof DrawTwo) {
                 int countDrawTwo = 0;
                 for (Card c: playergiliran.playerHand)
@@ -515,7 +582,14 @@ public class Game{
                     System.out.println(winnerMessage);
                     stop();
                 }
-                nextPlayer();
+                else if (playergiliran.getHiji() == false && playergiliran.getJumlah() == 1)
+                {
+                    //balik ke menu dan mulai thread
+                } 
+                else
+                {
+                    nextPlayer();
+                }
             }
 
             else if (currentcard instanceof DrawFour) {
@@ -569,7 +643,14 @@ public class Game{
                     System.out.println(winnerMessage);
                     stop();
                 }
-                nextPlayer();
+                else if (playergiliran.getHiji() == false && playergiliran.getJumlah() == 1)
+                {
+                    //balik ke menu dan mulai thread
+                } 
+                else
+                {
+                    nextPlayer();
+                }
             }
 
             else if (currentcard instanceof Skip){
@@ -610,7 +691,14 @@ public class Game{
                     System.out.println(winnerMessage);
                     stop();
                 }
-                nextPlayer();
+                else if (playergiliran.getHiji() == false && playergiliran.getJumlah() == 1)
+                {
+                    //balik ke menu dan mulai thread
+                } 
+                else
+                {
+                    nextPlayer();
+                }
             }
 
             else if (currentcard instanceof Reverse){
@@ -660,7 +748,14 @@ public class Game{
                     System.out.println(winnerMessage);
                     stop();
                 }
-                nextPlayer();
+                else if (playergiliran.getHiji() == false && playergiliran.getJumlah() == 1)
+                {
+                    //balik ke menu dan mulai thread
+                } 
+                else
+                {
+                    nextPlayer();
+                }
             }
             else {//Kartu Number
                 int countNumberCard = 0;
@@ -699,7 +794,14 @@ public class Game{
                     System.out.println(winnerMessage);
                     stop();
                 }
-                nextPlayer();
+                else if (playergiliran.getHiji() == false && playergiliran.getJumlah() == 1)
+                {
+                    //balik ke menu dan mulai thread
+                } 
+                else
+                {
+                    nextPlayer();
+                }
             }
         }
     }

@@ -14,11 +14,12 @@ public class Main {
         String command;
         boolean start = false, exit = false;
 
-        System.out.println("Welcome to HIJI");
+        System.out.println();
+        System.out.println("WELCOME TO HIJI");
         Game game = null;
 
         Player playergiliran = null;
-        Hiji hiji = new Hiji(playergiliran);
+        Hiji hiji = new Hiji(playergiliran, game);
         Thread t = new Thread(hiji);
 
         while (!exit)
@@ -38,7 +39,7 @@ public class Main {
             if (start)
             {
                 playergiliran = game.players.get(game.giliran);
-                hiji = new Hiji(playergiliran);
+                hiji = new Hiji(playergiliran, game);
                 t = new Thread(hiji);
                 if (playergiliran.getHiji() == false && playergiliran.getJumlah() == 1)
                 {
@@ -79,8 +80,11 @@ public class Main {
                 }
                 else
                 {
+                    System.out.println();
                     playergiliran = game.players.get(game.giliran);
+                    System.out.println("LIST KARTU ANDA");
                     playergiliran.ListCards();
+                    System.out.println();
                 }
             }
 
@@ -127,10 +131,12 @@ public class Main {
 
                     if (playergiliran.getJumlah() != 1)
                     {
+                        System.out.println();
                         System.out.println("Anda memiliki lebih dari satu kartu.");
                         playergiliran.addCard(game.deck.draw());
                         playergiliran.addCard(game.deck.draw());
                         System.out.println("Anda mengambil 2 kartu!");
+                        game.nextPlayer();
                     }
 
                     else
@@ -140,7 +146,6 @@ public class Main {
                             t.interrupt();
                         }
                     }
-
                 }
 
             }
