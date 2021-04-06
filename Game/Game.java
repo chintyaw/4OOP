@@ -267,7 +267,7 @@ public class Game{
         System.exit(0);
     }
 
-    public void discard()
+    public synchronized void discard()
             throws InvalidColorException, InvalidNumberException {
         // cek kartu top
         System.out.println();
