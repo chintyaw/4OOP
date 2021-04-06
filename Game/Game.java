@@ -110,10 +110,17 @@ public class Game{
             int giliranNext = ((giliran-skipcount-1)%numplayers);
             if (giliranNext == -1) {
                 giliranNext = numplayers - 1;
-            } else if (giliranNext == -skipcount) {
-                giliranNext = numplayers - skipcount;
-            } else if (giliranNext == -skipcount-1) {
-                giliranNext = numplayers - skipcount-1;
+            } 
+            else if (skipcount > 0)
+            {
+                if (giliranNext == -skipcount) 
+                {
+                    giliranNext = numplayers - skipcount;
+                } 
+                else if (giliranNext == -skipcount-1) 
+                {
+                    giliranNext = numplayers - skipcount-1;
+                }
             }
             Player playernext = players.get(giliranNext);
             System.out.println("Pemain selanjutnya: " + playernext.getName());
@@ -125,14 +132,25 @@ public class Game{
     {
         if (clockwise == true)
         {
-            Player playernext = players.get((giliran+1)%numplayers);
+            Player playernext = players.get((giliran+skipcount+1)%numplayers);
             return (playernext);
         }
         else
         {
-            int giliranNext = ((giliran-1)%numplayers);
+            int giliranNext = ((giliran-skipcount-1)%numplayers);
             if (giliranNext == -1) {
                 giliranNext = numplayers - 1;
+            } 
+            else if (skipcount > 0)
+            {
+                if (giliranNext == -skipcount) 
+                {
+                    giliranNext = numplayers - skipcount;
+                } 
+                else if (giliranNext == -skipcount-1) 
+                {
+                    giliranNext = numplayers - skipcount-1;
+                }
             }
             Player playernext = players.get(giliranNext);
             return (playernext);
@@ -225,6 +243,17 @@ public class Game{
             giliran = (giliran-skipcount-1)%numplayers;
             if (giliran == -1) {
                 giliran = numplayers - 1;
+            } 
+            else if (skipcount > 0)
+            {
+                if (giliran == -skipcount) 
+                {
+                giliran = numplayers-skipcount;
+                } 
+                else if (giliran == -skipcount-1) 
+                {
+                giliran = numplayers-skipcount-1;
+                }
             }
             skipcount = 0;
         }
@@ -238,7 +267,7 @@ public class Game{
         System.exit(0);
     }
 
-    public synchronized void discard()
+    public void discard()
             throws InvalidColorException, InvalidNumberException {
         // cek kartu top
         System.out.println();
