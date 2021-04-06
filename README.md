@@ -4,12 +4,13 @@ A UNO Game 'HIJI' Project with Object Oriented Programming (Java)
 ## How to Run
 Jalankan program dengan run Main.java.
 
+Compile
 ```bash
-javac ./Game/Main.java
+javac Game/Main.java
 ```
-
+Run
 ```bash
-java ./Game/Main.java
+java Game.Main
 ```
 
 ## Playing
